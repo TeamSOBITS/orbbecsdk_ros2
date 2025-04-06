@@ -178,20 +178,26 @@ eval "$(register-python-argcomplete3 ros2)"
 eval "$(register-python-argcomplete3 colcon)"
 ```
 
-Create `colcon` workspace
+# Orbbec カメラ セットアップ手順（TeamSOBITS版）
+**1から7の手順を行ってください**
+## 1．git clone を行う
 
 ```bash
-mkdir -p ~/ros2_ws/src
+cd ~/colcon_ws/src
+git clone https://github.com/TeamSOBITS/orbbecsdk_ros2.git
 ```
 
-Get source code
-
-```bash
-cd ~/ros2_ws/src
-git clone https://github.com/orbbec/OrbbecSDK_ROS2.git
+## 2．ROS2パッケージ取得用のリポジトリ設定（APT追加）
+```
+sudo apt update
+sudo apt install curl gnupg lsb-release
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list'
+sudo apt update
 ```
 
-Install deb dependencies
+## 3．deb依存関係をインストールする
 
 ```bash
 # assume you have sourced ROS environment, same blow
@@ -202,14 +208,32 @@ ros-$ROS_DISTRO-diagnostic-updater ros-$ROS_DISTRO-diagnostic-msgs ros-$ROS_DIST
 ros-$ROS_DISTRO-backward-ros libdw-dev
 ```
 
-Install udev rules.
-
+## 4．udevのルールをインストールする
+udev（userspace /dev）とは、Linuxの /dev ディレクトリ（デバイスファイルの集まり）を動的に管理する仕組みである。
+例えば、USBカメラを差したら /dev/video0 が自動で作られ、２つ目を指すと/dev/video1になる。
 ```bash
-cd  ~/ros2_ws/src/OrbbecSDK_ROS2/orbbec_camera/scripts
+sudo /lib/systemd/systemd-udevd --daemon
+cd ~/colcon_ws/src/orbbecsdk_ros2/orbbec_camera/scripts
 sudo bash install_udev_rules.sh
-sudo udevadm control --reload-rules && sudo udevadm trigger
+sudo udevadm trigger
 ```
-
+## 5．colcon buildを行う
+```
+cd ~/colcon_ws
+colcon build --symlink-install
+source install/setup.bash
+```
+**以上でorbbec_cameraのセットアップは完了です。**
+**以下はカメラのlaunch方法です。**
+## 7. カメラの起動
+Orbbec_Gemini_330_Series を使用する場合：
+***
+ros2 launch orbbec_camera gemini_330_series.launch.py
+***
+Orbbec_Femto_Bolt を使用する場合：
+***
+ros2 launch orbbec_camera femto_bolt.launch.py
+***
 ## Getting start
 
 ```bash
