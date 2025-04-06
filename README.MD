@@ -215,7 +215,7 @@ udev（userspace /dev）とは、Linuxの /dev ディレクトリ（デバイス
 sudo /lib/systemd/systemd-udevd --daemon
 cd ~/colcon_ws/src/orbbecsdk_ros2/orbbec_camera/scripts
 sudo bash install_udev_rules.sh
-sudo udevadm trigger
+sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
 ## 5．colcon buildを行う
 ```
@@ -227,13 +227,13 @@ source install/setup.bash
 **以下はカメラのlaunch方法です。**
 ## 7. カメラの起動
 Orbbec_Gemini_330_Series を使用する場合：
-***
+```
 ros2 launch orbbec_camera gemini_330_series.launch.py
-***
+```
 Orbbec_Femto_Bolt を使用する場合：
-***
+```
 ros2 launch orbbec_camera femto_bolt.launch.py
-***
+```
 ## Getting start
 
 ```bash
