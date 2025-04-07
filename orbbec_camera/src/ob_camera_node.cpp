@@ -978,7 +978,7 @@ void OBCameraNode::setupDefaultImageFormat() {
 
 void OBCameraNode::getParameters() {
   setAndGetNodeParameter<std::string>(camera_name_, "camera_name", "camera");
-  camera_link_frame_id_ = camera_name_ + "_link";
+  camera_link_frame_id_ = (camera_name_=="") ? "camera_link" : camera_name_ + "/camera_link";
   for (auto stream_index : IMAGE_STREAMS) {
     std::string param_name = stream_name_[stream_index] + "_width";
     setAndGetNodeParameter(width_[stream_index], param_name, 0);
