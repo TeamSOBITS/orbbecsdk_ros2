@@ -3,10 +3,17 @@
 Stephen Brawner (brawner@gmail.com) 
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="gemini_335_336">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="gemini_336">
+  <xacro:macro name="gemini_336" params="parent tf_prefix:=gemini *origin">
     <xacro:property name="mesh_path" value="package://orbbec_description/meshes/gemini335_336/" />
 
-    <link name="camera_link">
+    <joint name="${tf_prefix}plug_base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${tf_prefix}plug_base_link" />
+    </joint>
+
+    <link name="${tf_prefix}plug_base_link">
         <inertial>
             <origin xyz="0.00277269933215555 -1.06084680351007E-05 0.012801025085723" rpy="0 0 0" />
             <mass value="0.0186143499064346" />
@@ -31,7 +38,7 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <link name="camera_bottom_screw_frame">
+    <link name="${tf_prefix}camera_bottom_screw_frame">
         <inertial>
             <origin xyz="0.00255168206289301 -0.00123934714960528 0.0118889875786098" rpy="0 0 0" />
             <mass value="0.00564476880678651" />
@@ -56,14 +63,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_bottom_screw_frame_joint" type="fixed">
+    <joint name="${tf_prefix}camera_bottom_screw_frame_joint" type="fixed">
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <parent link="camera_link" />
-        <child link="camera_bottom_screw_frame" />
+        <parent link="${tf_prefix}plug_base_link" />
+        <child link="${tf_prefix}camera_bottom_screw_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_infra_1_frame">
+    <link name="${tf_prefix}camera_infra_1_frame">
         <inertial>
             <origin xyz="-0.00158020887627678 -1.52683853303637E-08 -1.4860800305164E-07"
                 rpy="0 0 0" />
@@ -89,14 +96,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_infra_1_joint" type="fixed">
+    <joint name="${tf_prefix}camera_infra_1_joint" type="fixed">
         <origin xyz="0.01587 -0.025 0.0125" rpy="0 0 0" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_infra_1_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_infra_1_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_infra_1_optical_frame">
+    <link name="${tf_prefix}camera_infra_1_optical_frame">
         <inertial>
             <origin xyz="1.52683853338331E-08 1.48608003051636E-07 -0.00158020887627678" rpy="0 0 0" />
             <mass value="0.000453168790516429" />
@@ -121,14 +128,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_infra_1_optical_joint" type="fixed">
+    <joint name="${tf_prefix}camera_infra_1_optical_joint" type="fixed">
         <origin xyz="0.01587 -0.025 0.0125" rpy="-1.5707963267949 0 -1.5707963267949" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_infra_1_optical_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_infra_1_optical_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_infra2_frame">
+    <link name="${tf_prefix}camera_infra2_frame">
         <inertial>
             <origin xyz="-0.00158020887627678 -1.52683853303637E-08 -1.48608003050581E-07"
                 rpy="0 0 0" />
@@ -154,14 +161,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_infra2_joint" type="fixed">
+    <joint name="${tf_prefix}camera_infra2_joint" type="fixed">
         <origin xyz="0.01587 0.025 0.0125" rpy="0 0 0" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_infra2_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_infra2_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_infra2_optical_frame">
+    <link name="${tf_prefix}camera_infra2_optical_frame">
         <inertial>
             <origin xyz="1.52683853268942E-08 1.4860800305058E-07 -0.00158020887627678" rpy="0 0 0" />
             <mass value="0.000453168790516429" />
@@ -186,14 +193,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_infra2_optical_joint" type="fixed">
+    <joint name="${tf_prefix}camera_infra2_optical_joint" type="fixed">
         <origin xyz="0.01587 0.025 0.0125" rpy="-1.5707963267949 0 -1.5707963267949" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_infra2_optical_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_infra2_optical_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_color_frame">
+    <link name="${tf_prefix}camera_color_frame">
         <inertial>
             <origin xyz="-0.00177079701156752 -2.20101367029782E-07 2.09893364599916E-07"
                 rpy="0 0 0" />
@@ -219,14 +226,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_color_joint" type="fixed">
+    <joint name="${tf_prefix}camera_color_joint" type="fixed">
         <origin xyz="0.017533 0.010995 0.012505" rpy="0 0 0" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_color_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_color_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_color_optical_frame">
+    <link name="${tf_prefix}camera_color_optical_frame">
         <inertial>
             <origin xyz="2.20101367029782E-07 -2.09893364599916E-07 -0.00177079701156752"
                 rpy="0 0 0" />
@@ -252,14 +259,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_color_optical_joint" type="fixed">
+    <joint name="${tf_prefix}camera_color_optical_joint" type="fixed">
         <origin xyz="0.017533 0.010995 0.012505" rpy="-1.5707963267949 0 -1.5707963267949" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_color_optical_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_color_optical_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_depth_frame">
+    <link name="${tf_prefix}camera_depth_frame">
         <inertial>
             <origin xyz="-0.00158020887627678 -1.52683853338331E-08 -1.48608003051662E-07"
                 rpy="0 0 0" />
@@ -285,14 +292,14 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_depth_joint" type="fixed">
+    <joint name="${tf_prefix}camera_depth_joint" type="fixed">
         <origin xyz="0.01587 -0.025 0.0125" rpy="0 0 0" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_depth_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_depth_frame" />
         <axis xyz="0 0 0" />
     </joint>
 
-    <link name="camera_depth_optical_frame">
+    <link name="${tf_prefix}camera_depth_optical_frame">
         <inertial>
             <origin xyz="1.52683853338331E-08 1.4860800305165E-07 -0.00158020887627678" rpy="0 0 0" />
             <mass value="0.000453168790516429" />
@@ -316,10 +323,11 @@ Stephen Brawner (brawner@gmail.com)
         </collision>
     </link>
 
-    <joint name="camera_depth_optical_joint" type="fixed">
+    <joint name="${tf_prefix}camera_depth_optical_joint" type="fixed">
         <origin xyz="0.01587 -0.025 0.0125" rpy="-1.5707963267949 0 -1.5707963267949" />
-        <parent link="camera_bottom_screw_frame" />
-        <child link="camera_depth_optical_frame" />
+        <parent link="${tf_prefix}camera_bottom_screw_frame" />
+        <child link="${tf_prefix}camera_depth_optical_frame" />
         <axis xyz="0 0 0" />
     </joint>
+  </xacro:macro>
 </robot>
