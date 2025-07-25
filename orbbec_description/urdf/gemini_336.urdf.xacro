@@ -5,7 +5,7 @@ Stephen Brawner (brawner@gmail.com)
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="gemini_336">
   <xacro:macro name="gemini_336" params="parent tf_prefix:=gemini *origin">
-    <xacro:property name="mesh_path" value="package://orbbec_description/meshes/gemini335_336/" />
+    <xacro:property name="mesh_path" value="file://$(find orbbec_description)/meshes/gemini335_336/" />
 
     <joint name="${tf_prefix}plug_base_joint" type="fixed">
       <xacro:insert_block name="origin" />
