@@ -51,6 +51,7 @@ def load_parameters(context, args):
 
 def generate_launch_description():
     args = [
+        DeclareLaunchArgument('namespace', default_value=''),
         DeclareLaunchArgument('camera_name', default_value='camera'),
         DeclareLaunchArgument('depth_registration', default_value='true'),
         DeclareLaunchArgument('serial_number', default_value=''),
@@ -204,7 +205,7 @@ def generate_launch_description():
                     package="orbbec_camera",
                     executable="orbbec_camera_node",
                     name="ob_camera_node",
-                    namespace=LaunchConfiguration("camera_name"),
+                    namespace=LaunchConfiguration("namespace"),
                     parameters=params,
                     output="screen",
                 )
@@ -212,17 +213,17 @@ def generate_launch_description():
         else:
             return [
                 GroupAction([
-                    PushRosNamespace(LaunchConfiguration("camera_name")),
+                    PushRosNamespace(LaunchConfiguration("namespace")),
                     ComposableNodeContainer(
                         name="camera_container",
-                        namespace="",
+                        namespace=LaunchConfiguration("namespace"),
                         package="rclcpp_components",
                         executable="component_container",
                         composable_node_descriptions=[
                             ComposableNode(
                                 package="orbbec_camera",
                                 plugin="orbbec_camera::OBCameraNodeDriver",
-                                name=LaunchConfiguration("camera_name"),
+                                namespace=LaunchConfiguration("camera_name"),
                                 parameters=params,
                             ),
                         ],
