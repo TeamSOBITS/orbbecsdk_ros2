@@ -72,7 +72,7 @@ namespace orbbec_camera {
 
 backward::SignalHandling OBCameraNodeDriver::sh;
 OBCameraNodeDriver::OBCameraNodeDriver(const rclcpp::NodeOptions &node_options)
-    : Node("orbbec_camera_node", "/", node_options),
+    : Node("orbbec_camera_node", node_options),
       node_options_(node_options),
       config_path_(ament_index_cpp::get_package_share_directory("orbbec_camera") +
                    "/config/OrbbecSDKConfig_v1.0.xml"),
@@ -81,9 +81,9 @@ OBCameraNodeDriver::OBCameraNodeDriver(const rclcpp::NodeOptions &node_options)
   init();
 }
 
-OBCameraNodeDriver::OBCameraNodeDriver(const std::string &node_name, const std::string &ns,
+OBCameraNodeDriver::OBCameraNodeDriver(const std::string &node_name,
                                        const rclcpp::NodeOptions &node_options)
-    : Node(node_name, ns, node_options),
+    : Node(node_name, node_options),
       node_options_(node_options),
       ctx_(std::make_unique<ob::Context>()),
       logger_(this->get_logger()) {

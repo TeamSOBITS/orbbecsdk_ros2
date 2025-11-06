@@ -34,7 +34,7 @@ namespace orbbec_camera {
 class OBCameraNodeDriver : public rclcpp::Node {
  public:
   explicit OBCameraNodeDriver(const rclcpp::NodeOptions& node_options = rclcpp::NodeOptions());
-  OBCameraNodeDriver(const std::string& node_name, const std::string& ns,
+  OBCameraNodeDriver(const std::string& node_name,
                      const rclcpp::NodeOptions& node_options = rclcpp::NodeOptions());
   ~OBCameraNodeDriver() override;
 

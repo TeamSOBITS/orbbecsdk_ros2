@@ -978,7 +978,7 @@ void OBCameraNode::setupDefaultImageFormat() {
 
 void OBCameraNode::getParameters() {
   setAndGetNodeParameter<std::string>(camera_name_, "camera_name", "camera");
-  camera_link_frame_id_ = (std::string(node_->get_namespace()).substr(1)=="") ? camera_name_ + "_link" : std::string(node_->get_namespace()).substr(1) + "/" + camera_name_ + "_link";
+  camera_link_frame_id_ = (std::string(node_->get_namespace()).substr(1)=="") ? "camera_link" : std::string(node_->get_namespace()).substr(1) + "/camera_link";
   for (auto stream_index : IMAGE_STREAMS) {
     std::string param_name = stream_name_[stream_index] + "_width";
     setAndGetNodeParameter(width_[stream_index], param_name, 0);
@@ -995,10 +995,13 @@ void OBCameraNode::getParameters() {
     param_name = "flip_" + stream_name_[stream_index];
     setAndGetNodeParameter(flip_stream_[stream_index], param_name, false);
     param_name = camera_name_ + "_" + stream_name_[stream_index] + "_frame_id";
-    std::string default_frame_id = camera_name_ + "_" + stream_name_[stream_index] + "_frame";
+    std::string default_frame_id = (std::string(node_->get_namespace()).substr(1)=="") ? 
+        camera_name_ + "_" + stream_name_[stream_index] + "_frame" :
+        std::string(node_->get_namespace()).substr(1) + "/" + stream_name_[stream_index] + "_frame";
     setAndGetNodeParameter(frame_id_[stream_index], param_name, default_frame_id);
-    std::string default_optical_frame_id =
-        camera_name_ + "_" + stream_name_[stream_index] + "_optical_frame";
+    std::string default_optical_frame_id = (std::string(node_->get_namespace()).substr(1)=="") ? 
+        camera_name_ + "_" + stream_name_[stream_index] + "_optical_frame" :
+        std::string(node_->get_namespace()).substr(1) + "/" + stream_name_[stream_index] + "_optical_frame";
     param_name = stream_name_[stream_index] + "_optical_frame_id";
     setAndGetNodeParameter(optical_frame_id_[stream_index], param_name, default_optical_frame_id);
     param_name = stream_name_[stream_index] + "_format";
@@ -1324,7 +1327,7 @@ void OBCameraNode::setupPublishers() {
           std::make_shared<image_transport_publisher>(*node_, topic, image_qos_profile);
     }
 
-    topic = name + "/camera_info";
+    topic = "camera_info";
     auto camera_info_qos = camera_info_qos_[stream_index];
     auto camera_info_qos_profile = getRMWQosProfileFromString(camera_info_qos);
     if (use_intra_process_) {
@@ -1392,32 +1395,32 @@ void OBCameraNode::setupPublishers() {
   if (enable_stream_[DEPTH] && enable_stream_[INFRA0]) {
     depth_to_other_extrinsics_publishers_[INFRA0] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_ir", extrinsics_qos);
+            camera_name_ + "/depth_to_ir", extrinsics_qos);
   }
   if (enable_stream_[DEPTH] && enable_stream_[COLOR]) {
     depth_to_other_extrinsics_publishers_[COLOR] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_color", extrinsics_qos);
+            camera_name_ + "/depth_to_color", extrinsics_qos);
   }
   if (enable_stream_[DEPTH] && enable_stream_[INFRA1]) {
     depth_to_other_extrinsics_publishers_[INFRA1] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_left_ir", extrinsics_qos);
+            camera_name_ + "/depth_to_left_ir", extrinsics_qos);
   }
   if (enable_stream_[DEPTH] && enable_stream_[INFRA2]) {
     depth_to_other_extrinsics_publishers_[INFRA2] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_right_ir", extrinsics_qos);
+            camera_name_ + "/depth_to_right_ir", extrinsics_qos);
   }
   if (enable_stream_[DEPTH] && enable_stream_[ACCEL]) {
     depth_to_other_extrinsics_publishers_[ACCEL] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_accel", extrinsics_qos);
+            camera_name_ + "/depth_to_accel", extrinsics_qos);
   }
   if (enable_stream_[DEPTH] && enable_stream_[GYRO]) {
     depth_to_other_extrinsics_publishers_[GYRO] =
         node_->create_publisher<orbbec_camera_msgs::msg::Extrinsics>(
-            "/" + camera_name_ + "/depth_to_gyro", extrinsics_qos);
+            camera_name_ + "/depth_to_gyro", extrinsics_qos);
   }
   filter_status_pub_ =
       node_->create_publisher<std_msgs::msg::String>("depth_filter_status", extrinsics_qos);
