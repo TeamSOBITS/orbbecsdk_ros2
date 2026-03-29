@@ -46,6 +46,7 @@ def load_parameters(context, args):
     return {
         key: (value if key in skip_convert else convert_value(value))
         for key, value in default_params.items()
+        if value != ''
     }
 
 
@@ -191,6 +192,15 @@ def generate_launch_description():
         DeclareLaunchArgument('enable_hardware_reset', default_value='false'),
 
         DeclareLaunchArgument('frame_aggregate_mode', default_value='ANY'), # full_frame、color_frame、ANY or disable
+
+        DeclareLaunchArgument('head_camera_depth_frame_id', default_value=''),
+        DeclareLaunchArgument('depth_optical_frame_id', default_value=''),
+        DeclareLaunchArgument('head_camera_color_frame_id', default_value=''),
+        DeclareLaunchArgument('color_optical_frame_id', default_value=''),
+        DeclareLaunchArgument('head_camera_left_ir_frame_id', default_value=''),
+        DeclareLaunchArgument('left_ir_optical_frame_id', default_value=''),
+        DeclareLaunchArgument('head_camera_right_ir_frame_id', default_value=''),
+        DeclareLaunchArgument('right_ir_optical_frame_id', default_value=''),
     ]
 
     def get_params(context, args):
