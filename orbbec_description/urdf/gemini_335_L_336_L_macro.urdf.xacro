@@ -75,6 +75,16 @@
       <axis xyz="0 0 0" />
     </joint>
 
+    <joint name="${tf_prefix}camera_depth_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708" />
+      <parent link="${tf_prefix}camera_depth_frame" />
+      <child link="${tf_prefix}camera_depth_optical_frame" />
+      <axis xyz="0 0 0" />
+    </joint>
+
+    <link name="${tf_prefix}camera_depth_optical_frame" />
+    
+
     <link name="${tf_prefix}camera_IMU_frame">
       <inertial>
         <origin xyz="-0.000484999999999999 0 0" rpy="0 0 0" />
